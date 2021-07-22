@@ -55,3 +55,20 @@ def delete_drink():
     db.session.commit()
     return {"message": "YEET!"}
 
+
+@app.route('/drinks/<id>', methods=['POST'])
+def update_drink(id):
+    the_name = request.json['name']
+    the_description = request.json['description']
+    drink = Drink.query.get_or_404(id)
+
+    if the_name is not None:
+        drink.name = the_name
+    
+    if the_description is not None:
+        drink.description = the_description
+    
+    db.session.commit()
+
+    return {"name": request.json['name'], "description": request.json['description']} 
+
